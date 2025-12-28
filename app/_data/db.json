@@ -9,9 +9,9 @@
     ],
     "users": [
         {
-            "id": "1",
+            "id": "2",
             "name": "user1",
-            "email": "user1@email.com",
+            "email": "user1@gmail.com",
             "password": "123456"
         }
     ]
