@@ -1,12 +1,34 @@
 'use server'
-import { deleteContact } from "../api/contact";
+import { error } from "console";
+import { createContact, deleteContact } from "../api/contact";
 import { revalidatePath } from "next/cache";
+import { getSession } from "../_lib/session";
+import { ContactType } from "../types/contact";
 
 export const createContactAction = async(
      prevstate: any,
      formData: FormData
     ) => {
+     if(!formData.get("name")) {
+      return { error: `Name is missing` };
+     }
 
+     const user = await getSession();
+
+     const newContact:ContactType = {
+       name: formData.get("name") as string,
+       email: formData.get("email") as string,
+       userId: user?.id,
+     }
+
+     try {
+         await createContact(newContact);
+         revalidatePath("/contact");
+         return{ success: true };
+     } catch (error) {
+          console.log("Error creating contact : ", error);
+      return { error: "Failed to create contact" };
+     }
  };
 
  export const updateContactAction = async(
@@ -26,7 +48,7 @@ const id = formData.get("id") as string;
      revalidatePath("/contact");
      return {success: true }
    } catch (error) {
-     // console.log("Error deleting contact : ", error);
+     console.log("Error deleting contact : ", error);
       return { error: "Failed to delete contact" };
     }
  };
