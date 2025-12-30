@@ -1,7 +1,7 @@
 'use client'
 import React, { useActionState, useEffect } from 'react'
 import { ContactType } from '../types/contact';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 type ContactFormProps = {
   action: (prevState: any, formData: FormData) => Promise<any>;
@@ -20,6 +20,7 @@ const ContactForm = ({ action, contact }: ContactFormProps) => {
 
   return (
   <form action={formAction} className='space-x-4'>
+      <input type='hidden' name='id' value={contact?.id} />
       <div>
           <label 
           htmlFor='name' 
@@ -30,8 +31,9 @@ const ContactForm = ({ action, contact }: ContactFormProps) => {
           <input 
           type='text'
           name='name'
+          defaultValue={contact?.name || ""}
           placeholder='Enter your name'
-         //  required
+          required
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2'
           />
       </div>
@@ -40,8 +42,9 @@ const ContactForm = ({ action, contact }: ContactFormProps) => {
           <input 
           type='email'
           name='email'
+          defaultValue={contact?.email || ""}
           placeholder='Enter your email'
-         // required
+         required
           className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2'
           />
       </div>

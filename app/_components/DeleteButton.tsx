@@ -12,8 +12,9 @@ type DeleteButtonProps = {
 const DeleteButton = ({action, contact}: DeleteButtonProps) => {
     const [state, formAction] = useActionState(action, null);
   return (
-    <form action={formAction} method='post'>
+    <form action={formAction}>
           <input type='hidden' name='id' value={contact?.id} />
+          
         <button 
          type='submit'
          className='flex items-center gap-2 px-3 py-1 border border-red-300 rounded-md hover:border-red-400 hover:bg-red-100'
